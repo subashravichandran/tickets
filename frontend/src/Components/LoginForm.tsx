@@ -13,7 +13,7 @@ interface FromProps {
 
 const loginUser = async (email: string, password: string) => {
   try {
-    const response = await axios.post('http://127.0.0.1:3000/login', { email, password });
+    const response = await axios.post('http://127.0.0.1:3000/login', { user: { email, password }});
     console.log(response.data); // Log successful response data
     return response.data; // Return the response data
   } catch (error: any) {
