@@ -5,6 +5,7 @@ ruby "3.3.0"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.2"
 
+gem 'devise'
 gem 'rack-cors'
 
 # Use sqlite3 as the database for Active Record
