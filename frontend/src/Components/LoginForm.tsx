@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Dashboard from "./Dashboard"
 // import { BrowserRouter as Router } from "react-router-dom"
 import axios from "axios";
+import { LOGIN, REST_API } from "../Constants";
 
 interface FromProps {
   isLoggedIn: boolean;
@@ -25,7 +26,7 @@ const clearLocalStorage = () => {
 
 const loginUser = async (email: string, password: string) => {
   try {
-    const response = await axios.post('http://127.0.0.1:3000/login', { user: { email, password }});
+    const response = await axios.post(REST_API + LOGIN, { user: { email, password }});
     console.log(response.data); // Log successful response data
     setLocalStorage(response.data.data)
     return response.data; // Return the response data
