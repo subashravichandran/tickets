@@ -1,6 +1,8 @@
 // import React from React
 
-import { useDebugValue, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import Dashboard from "./Dashboard"
+// import { BrowserRouter as Router } from "react-router-dom"
 import axios from "axios";
 
 interface FromProps {
@@ -63,7 +65,11 @@ function LoginForm() {
         password = {password}
         setEmail = {setEmail}
         setPassword = {setPassword} />
-      { isLoggedIn ? <button onClick={handleLogoutClick}>LOGOUT</button> : <button onClick={handleLoginClick}>LOGIN</button> }
+      { isLoggedIn ? <>
+                       <Dashboard />
+                       <button onClick={handleLogoutClick}>LOGOUT</button>
+                     </>
+                   : <button onClick={handleLoginClick}>LOGIN</button> }
     </>
   )
 }
