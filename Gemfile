@@ -9,6 +9,7 @@ gem 'devise'
 gem 'rack-cors'
 gem 'devise-jwt'
 gem 'jsonapi-serializer'
+gem 'pry'
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
@@ -38,6 +39,7 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
+
 # gem "rack-cors"
 
 group :development, :test do
