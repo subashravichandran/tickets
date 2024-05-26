@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  created_at: 2024-05-26 10:02:24
+  execute_at: 2024-05-26 10:02:24
+
+two:
+  name: MyString
+  created_at: 2024-05-26 10:02:24
+  execute_at: 2024-05-26 10:02:24

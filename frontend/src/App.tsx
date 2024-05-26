@@ -1,4 +1,5 @@
-import LoginForm from './Components/LoginForm'
+import Dashboard from "./Components/Dashboard"
+// import LoginForm from './Components/LoginForm'
 // import Vite from './Vite'
 // import axios from 'axios'
 
@@ -6,7 +7,7 @@ function App() {
 
   return (
     //<Vite />
-    <LoginForm />
+    <Dashboard />
   )
 }
 

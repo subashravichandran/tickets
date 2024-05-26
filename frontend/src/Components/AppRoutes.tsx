@@ -1,10 +1,10 @@
 import {Route, Routes} from 'react-router-dom';
-import HabitsList from './Habits/HabitsList';
+import TodoLists from './Todo/TodoLists';
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path='/' element={<HabitsList/>} />
+      <Route path='/todo_lists' element={<TodoLists/>} />
     </Routes>
   );
 }
