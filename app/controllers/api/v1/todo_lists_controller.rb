@@ -5,7 +5,7 @@ class Api::V1::TodoListsController < ApplicationController
   def index
     @todo_lists = TodoList.all
 
-    render json: @todo_lists
+    render json: ::TodoListSerializer.new(@todo_lists).serializable_hash.to_json
   end
 
   # GET /todo_lists/1

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { REST_API, TODOLIST, VER } from "../../Constants";
+import { Table } from "react-bootstrap";
 
 function TodoLists() {
   const [lists, setLists] = useState([]);
@@ -10,7 +11,7 @@ function TodoLists() {
       console.log('Fetching Lists from REST api', url)
       const response = await axios.get(url)
       if (response.status == 200) {
-        setLists(response.data)
+        setLists(response.data.data.map((todos :any) => todos.attributes))
       } else {
         console.log('REST API Error response: ' + response.status + response.data)
       }
@@ -26,11 +27,23 @@ function TodoLists() {
   return (
     <>
       <h2>Todo</h2>
-      { lists.map((item :any) => (
-        <div key={item.id}>
-          <h2>{item.name}</h2>
-          <p>{item.execute_at}</p>
-        </div>
+      { lists.map((item :any, index) => (
+        <Table striped hover key={item.id}>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Notify At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{index}</td>
+              <td>{item.name}</td>
+              <td>{item.execute_at}</td>
+            </tr>
+          </tbody>
+        </Table>
       ))}
     </>
   ); 
