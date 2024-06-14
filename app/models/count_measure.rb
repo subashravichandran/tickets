@@ -1,0 +1,2 @@
+class CountMeasure < ApplicationRecord
+end
