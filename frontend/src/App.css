@@ -9,3 +9,38 @@
   max-width: 100% !important;
   background-color: rgb(255, 255, 255);
 }
+
+.serial-numbered-with-name {
+  thead {
+    tr:first-child {
+      th:first-child {
+        width: 1%;
+      }
+      th:nth-child(2) {
+        width: 10%;
+      }
+    }
+  }
+}
+
+.action-5-h {
+  width: 500px;
+}
+
+.action-3-h {
+  width: 300px;
+}
+
+.btn {
+  --bs-btn-padding-y: 0 !important;
+}
+
+tr {
+  height: 43px;
+}
+
+td {
+  .form-control {
+    height: 25px;
+  }
+}

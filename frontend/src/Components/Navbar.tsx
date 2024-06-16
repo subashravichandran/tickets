@@ -1,7 +1,7 @@
 import { faGear, faListCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Container, Nav, NavDropdown, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 function NavBar() {
