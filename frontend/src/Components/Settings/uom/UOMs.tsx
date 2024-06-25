@@ -4,7 +4,7 @@ import { axiosFetchData, axiosPatchData, axiosPostData } from "../../../utils/ap
 import { UOM_LIST } from "../../../Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
-import { Button, Form, FormLabel, Modal} from "react-bootstrap";
+import { Button, Form, FormLabel, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import TitleWithButton from "../../common/TitleWithButton";
 
 // Defining the types for the UOM item
@@ -20,6 +20,7 @@ function UOMs () {
     const [uomAbbr, setUomAbbr] = useState<string>('')
     const [editClickedItem, setEditClickedItem] = useState<number | null>(null)
     const [showCreateModal, setShowCreateModal] = useState<boolean>(false)
+    const [isSaveBtnDisabled, setIsSaveBtnDisabled] = useState<boolean>(false)
 
     useEffect(() => {
       const fetchData = async () => {
@@ -67,11 +68,30 @@ function UOMs () {
       }
     }
 
+    const handleAbbrChange= (str :string) => {
+      setUomAbbr(str)
+      setIsSaveBtnDisabled(str.length > 3 || str.length == 0 || uomName.length == 0)
+    }
+
+    const handleNameChange = (name :string) =>{
+      setUomName(name)
+      setIsSaveBtnDisabled(name.length == 0 || (uomAbbr.length > 3 || uomAbbr.length == 0))
+    }
+
     const buttons = (
       <>
         <Button variant="success" onClick={() => setShowCreateModal(true)}>New</Button>
       </>
     )
+
+    const renderTooltip = (props :any) => (
+      <Tooltip id="button-tooltip">
+        { props.name_invalid && "Name cannot be blank" }
+        { props.name_invalid && <br/> }
+        { props.abbr_length == 0 && 'Abbreviation cannot be blank' }
+        { props.abbr_length > 3 && 'Abbreviation length cannot be more than 3'}
+      </Tooltip>
+    );
 
     return (
       <>
@@ -93,7 +113,7 @@ function UOMs () {
                 <td>
                   { editClickedItem === index ? <Form.Control type="text"
                                                               defaultValue={item.name}
-                                                              onChange={ (e) => setUomName(e.target.value)}
+                                                              onChange={ (e) => handleNameChange(e.target.value)}
                                                               id='uom_name' />
                                               : item.name 
                   }
@@ -101,7 +121,7 @@ function UOMs () {
                 <td>
                   { editClickedItem === index ? <Form.Control type="text"
                                                               defaultValue={item.abbreviation}
-                                                              onChange={ (e) => setUomAbbr(e.target.value)}
+                                                              onChange={ (e) => handleAbbrChange(e.target.value)}
                                                               id='uom_abbr'/>
                                               : item.abbreviation
                   }
@@ -111,7 +131,17 @@ function UOMs () {
                                    onClick={ ()=> handleEditIconClick(index, item.name, item.abbreviation) }
                                    style={{ cursor: 'pointer'}} />{' '}
                   { editClickedItem === index ? <>
-                                                  <Button variant="success" onClick={ () => handleUomUpdate('save') }>Save</Button>{' '}
+                                                  <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={isSaveBtnDisabled ? renderTooltip({name_invalid: uomName.length == 0, abbr_length: uomAbbr.length })
+                                                                               : <></>}
+                                                  >
+                                                    <span>
+                                                      <Button variant={isSaveBtnDisabled ? "secondary" : "success"}
+                                                              onClick={ () => handleUomUpdate('save') }
+                                                              disabled={isSaveBtnDisabled}>Save</Button>{' '}
+                                                    </span>
+                                                  </OverlayTrigger>
                                                   <Button variant="danger" onClick={ () => handleUomUpdate('cancel') }>Cancel</Button>
                                                 </>
                                               : null }
