@@ -49,3 +49,12 @@ td {
   /* background-color: rgb(113, 132, 161); */
   max-width: 100%;
 }
+
+.mandatory-field {
+  color:red;
+}
+
+.title-row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

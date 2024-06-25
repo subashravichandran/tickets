@@ -8,8 +8,8 @@ interface TitleWithButtonProps {
 function TitleWithButton({title, buttons}: TitleWithButtonProps) {
   return(
     <Container className="header-title">
-        <Row>
-            <Col className='text-start'>{title}</Col>
+        <Row className='title-row'>
+            <Col className='text-start title-name'>{title}</Col>
             <Col className='text-end'>{buttons}</Col>
         </Row>
     </Container>

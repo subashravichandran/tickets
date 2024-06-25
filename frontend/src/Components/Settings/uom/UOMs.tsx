@@ -58,11 +58,7 @@ function UOMs () {
     }
 
     const handleCreateUom = async() => {
-      if(uomName.length == 0) { setUomNameError('Name cannot be blank') }
-      if(uomAbbr.length == 0) { setUomAbbrError('Abbreviation cannot be blank') }
-      if(uomAbbr.length > 3) { setUomAbbrError('Abbreviation length cannot be more than 3') }
-
-      if (!uomNameError) {
+      if(uomName.length != 0 && uomAbbr.length != 0 && uomAbbr.length <= 3) {
         const newUom = {name: uomName, abbreviation: uomAbbr}
         const url = `/count_measures`
 
@@ -127,7 +123,6 @@ function UOMs () {
 
     return (
       <>
-        <p className='context-title'>Unit of Measures</p>
         <TitleWithButton title='Unit of Measures' buttons={buttons} />
         <Table striped hover className="serial-numbered-with-name">
           <thead>
@@ -190,7 +185,7 @@ function UOMs () {
           <Modal.Body>
             <Form>
               <Form.Group controlId="formUomName">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Name<span className="mandatory-field"> *</span></Form.Label>
                 <Form.Control type='text'
                               placeholder="UOM Name"
                               value={uomName}
@@ -199,7 +194,7 @@ function UOMs () {
                 <Form.Text className="text-danger">{ uomNameError }</Form.Text>
               </Form.Group>
               <Form.Group controlId="formUomAbbr">
-                <Form.Label>Abbreviation</Form.Label>
+                <Form.Label>Abbreviation<span className="mandatory-field"> *</span></Form.Label>
                 <Form.Control type='text'
                               placeholder="Abbreviation"
                               value={uomAbbr}
