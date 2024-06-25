@@ -18,7 +18,7 @@ export const axiosFetchData = async(action :string): Promise<any> => {
   }
 }
 
-export const axiosPatch = async(url :string, data  :any) => {
+export const axiosPatchData = async(url :string, data :any) => {
   const url_with_version = REST_API + VER + url
   try {
     console.log('Patching data to REST api', url_with_version)
@@ -31,6 +31,23 @@ export const axiosPatch = async(url :string, data  :any) => {
     }
   } catch (error) {
     console.error('Patch failed:', error);
+    throw error
+  }
+}
+
+export const axiosPostData = async(url :string, data :any): Promise<any> => {
+  const url_with_version = REST_API + VER + url
+  try {
+    console.log('Posting data to REST api', url_with_version)
+    const response = await axios.post(url_with_version, data);
+    if (response.status === 200) {
+      return response.data
+    } else {
+      console.log('Response Not OK: ' + response.status + response.data)
+      throw new Error('Network response was not ok');
+    }
+  } catch (error) {
+    console.error('Post failed:', error);
     throw error
   }
 }

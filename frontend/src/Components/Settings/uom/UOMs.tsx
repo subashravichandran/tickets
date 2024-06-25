@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { axiosFetchData, axiosPatch } from "../../../utils/apiUtils";
+import { axiosFetchData, axiosPatchData, axiosPostData } from "../../../utils/apiUtils";
 import { UOM_LIST } from "../../../Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
 import { Button, Form} from "react-bootstrap";
+import TitleWithButton from "../../common/TitleWithButton";
 
 // Defining the types for the UOM item
 interface UOMItem {
@@ -40,9 +41,8 @@ function UOMs () {
           abbreviation: uomAbbr
         }
         const url = `/count_measures/${lists[editClickedItem].id}`
-        axiosPatch(url, updatedUom)
         try {
-          const response = await axiosPatch(url, updatedUom);
+          const response = await axiosPatchData(url, updatedUom);
           const updatedLists = [...lists];
           updatedLists[editClickedItem] = response;
           setLists(updatedLists);
@@ -53,9 +53,28 @@ function UOMs () {
       setEditClickedItem(null)
     }
 
+    const handleCreateUom = async() => {
+      const newUom = {name: '', abbreviation: ''}
+      const url = `/count_measures`
+
+      try {
+        const response = await axiosPostData(url, newUom)
+        setLists([...lists, response])
+      } catch (error) {
+        console.log('Failed to create UOM:', error)
+      }
+    }
+
+    const buttons = (
+      <>
+        <Button variant="success" onClick={handleCreateUom}>New</Button>
+      </>
+    )
+
     return (
       <>
         <p className='context-title'>Unit of Measures</p>
+        <TitleWithButton title='Unit of Measures' buttons={buttons} />
         <Table striped hover className="serial-numbered-with-name">
           <thead>
             <tr>
