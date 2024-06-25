@@ -21,6 +21,8 @@ function UOMs () {
     const [editClickedItem, setEditClickedItem] = useState<number | null>(null)
     const [showCreateModal, setShowCreateModal] = useState<boolean>(false)
     const [isSaveBtnDisabled, setIsSaveBtnDisabled] = useState<boolean>(false)
+    const [uomNameError, setUomNameError] = useState<string>('')
+    const [uomAbbrError, setUomAbbrError] = useState<string>('')
 
     useEffect(() => {
       const fetchData = async () => {
@@ -56,21 +58,22 @@ function UOMs () {
     }
 
     const handleCreateUom = async() => {
-      const newUom = {name: uomName, abbreviation: uomAbbr}
-      const url = `/count_measures`
+      if(uomName.length == 0) { setUomNameError('Name cannot be blank') }
+      if(uomAbbr.length == 0) { setUomAbbrError('Abbreviation cannot be blank') }
+      if(uomAbbr.length > 3) { setUomAbbrError('Abbreviation length cannot be more than 3') }
 
-      try {
-        const response = await axiosPostData(url, newUom)
-        setLists([...lists, response])
-        setShowCreateModal(false)
-      } catch (error) {
-        console.log('Failed to create UOM:', error)
+      if (!uomNameError) {
+        const newUom = {name: uomName, abbreviation: uomAbbr}
+        const url = `/count_measures`
+
+        try {
+          const response = await axiosPostData(url, newUom)
+          setLists([...lists, response])
+          setShowCreateModal(false)
+        } catch (error) {
+          console.log('Failed to create UOM:', error)
+        }
       }
-    }
-
-    const handleAbbrChange= (str :string) => {
-      setUomAbbr(str)
-      setIsSaveBtnDisabled(str.length > 3 || str.length == 0 || uomName.length == 0)
     }
 
     const handleNameChange = (name :string) =>{
@@ -78,9 +81,38 @@ function UOMs () {
       setIsSaveBtnDisabled(name.length == 0 || (uomAbbr.length > 3 || uomAbbr.length == 0))
     }
 
+    const handleAbbrChange= (str :string) => {
+      setUomAbbr(str)
+      setIsSaveBtnDisabled(str.length > 3 || str.length == 0 || uomName.length == 0)
+    }
+
+    const handleNewButton = () => {
+      setUomName('')
+      setUomAbbr('')
+      setUomNameError('')
+      setUomAbbrError('')
+      setShowCreateModal(true)
+    }
+
+    const handleNewUomChange = (name :string) => {
+      setUomName(name)
+      setUomNameError(name.length == 0 ? 'Name cannot be blank.' : '')
+    }
+
+    const handleNewAbbrChange = (abbr :string) => {
+      setUomAbbr(abbr)
+      if(abbr.length == 0) {
+        setUomAbbrError('Abbreviation cannot be blank')
+      } else if(abbr.length > 3) {
+        setUomAbbrError('Abbreviation length cannot be more than 3')
+      } else {
+        setUomAbbrError('')
+      }
+    }
+
     const buttons = (
       <>
-        <Button variant="success" onClick={() => setShowCreateModal(true)}>New</Button>
+        <Button variant="success" onClick={handleNewButton}>New</Button>
       </>
     )
 
@@ -162,21 +194,27 @@ function UOMs () {
                 <Form.Control type='text'
                               placeholder="UOM Name"
                               value={uomName}
-                              onChange={(e) => setUomName(e.target.value)}
+                              onChange={(e) => handleNewUomChange(e.target.value)}
                 />
+                <Form.Text className="text-danger">{ uomNameError }</Form.Text>
               </Form.Group>
               <Form.Group controlId="formUomAbbr">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Abbreviation</Form.Label>
                 <Form.Control type='text'
                               placeholder="Abbreviation"
                               value={uomAbbr}
-                              onChange={(e) => setUomAbbr(e.target.value)}
+                              onChange={(e) => handleNewAbbrChange(e.target.value)}
                 />
+                <Form.Text className="text-danger">{ uomAbbrError }</Form.Text>
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="success" onClick={handleCreateUom}>Create</Button>
+            <Button variant="success"
+                    onClick={handleCreateUom}
+                    disabled={uomName.length == 0 || uomAbbr.length == 0 || uomAbbr.length > 3 }>
+              Create
+            </Button>
           </Modal.Footer>
         </Modal>
       </>
