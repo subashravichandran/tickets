@@ -18,7 +18,7 @@ class Api::V1::CountMeasuresController < ApplicationController
     @count_measure = CountMeasure.new(count_measure_params)
 
     if @count_measure.save
-      render json: @count_measure, status: :created, location: @count_measure
+      render json: @count_measure, status: :created, location: api_v1_count_measure_url(@count_measure)
     else
       render json: @count_measure.errors, status: :unprocessable_entity
     end

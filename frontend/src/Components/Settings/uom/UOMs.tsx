@@ -4,7 +4,7 @@ import { axiosFetchData, axiosPatchData, axiosPostData } from "../../../utils/ap
 import { UOM_LIST } from "../../../Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
-import { Button, Form} from "react-bootstrap";
+import { Button, Form, FormLabel, Modal} from "react-bootstrap";
 import TitleWithButton from "../../common/TitleWithButton";
 
 // Defining the types for the UOM item
@@ -19,6 +19,7 @@ function UOMs () {
     const [uomName, setUomName] = useState<string>('')
     const [uomAbbr, setUomAbbr] = useState<string>('')
     const [editClickedItem, setEditClickedItem] = useState<number | null>(null)
+    const [showCreateModal, setShowCreateModal] = useState<boolean>(false)
 
     useEffect(() => {
       const fetchData = async () => {
@@ -54,12 +55,13 @@ function UOMs () {
     }
 
     const handleCreateUom = async() => {
-      const newUom = {name: '', abbreviation: ''}
+      const newUom = {name: uomName, abbreviation: uomAbbr}
       const url = `/count_measures`
 
       try {
         const response = await axiosPostData(url, newUom)
         setLists([...lists, response])
+        setShowCreateModal(false)
       } catch (error) {
         console.log('Failed to create UOM:', error)
       }
@@ -67,7 +69,7 @@ function UOMs () {
 
     const buttons = (
       <>
-        <Button variant="success" onClick={handleCreateUom}>New</Button>
+        <Button variant="success" onClick={() => setShowCreateModal(true)}>New</Button>
       </>
     )
 
@@ -118,6 +120,35 @@ function UOMs () {
             ))}
           </tbody>
         </Table>
+
+        <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create New UOM</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="formUomName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control type='text'
+                              placeholder="UOM Name"
+                              value={uomName}
+                              onChange={(e) => setUomName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formUomAbbr">
+                <Form.Label>Name</Form.Label>
+                <Form.Control type='text'
+                              placeholder="Abbreviation"
+                              value={uomAbbr}
+                              onChange={(e) => setUomAbbr(e.target.value)}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="success" onClick={handleCreateUom}>Create</Button>
+          </Modal.Footer>
+        </Modal>
       </>
     ); 
 }

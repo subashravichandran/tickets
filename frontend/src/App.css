@@ -44,3 +44,8 @@ td {
     height: 25px;
   }
 }
+
+.header-title.container {
+  /* background-color: rgb(113, 132, 161); */
+  max-width: 100%;
+}
