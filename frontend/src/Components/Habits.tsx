@@ -1,12 +1,23 @@
-import { Button, Form, FormGroup, Modal } from "react-bootstrap";
+import { Button, Form, FormGroup, Modal, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import TitleWithButton, { Mandate } from "./common/TitleWithButton";
-import { useState } from "react";
-import { axiosPostData } from "../utils/apiUtils";
+import { useEffect, useState } from "react";
+import { axiosFetchData, axiosPatchData, axiosPostData } from "../utils/apiUtils";
+import { HABITS_LIST } from "../Constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenClip } from "@fortawesome/free-solid-svg-icons";
+
+interface HabitsItem {
+  id: number;
+  name: string;
+  streak: number;
+}
 
 function Habits() {
+  const [lists, setLists] = useState<HabitsItem[]>([])
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false)
   const [habitName, setHabitName] = useState<string>('')
   const [habitNameError, setHabitNameError] = useState<string>('')
+  const [editIconClickedForItem, setEditIconClickedForItem] = useState<number | null>(null)
 
   const validateName = (name: string) => { setHabitNameError(name.length == 0 ? 'Name cannot be blank' : '') }
   const handleNewButton = () => {
@@ -33,6 +44,33 @@ function Habits() {
 
   const buttons = ( <><Button variant="success" onClick={ handleNewButton }>New</Button></> )
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await axiosFetchData(HABITS_LIST)
+      setLists(data)
+    }
+    fetchData();
+  }, [])
+
+  const handleEditIconClick = (index: number) => {
+    setEditIconClickedForItem(index)
+  }
+
+  const handleHabitUpdate = async() => {
+    if (editIconClickedForItem !== null && habitName != '') {
+      const updatedHabit = { name: habitName }
+      const url = `/habits/${lists[editIconClickedForItem].id}`
+      try {
+        const response = await axiosPatchData(url, updatedHabit);
+        const updatedLists = [...lists];
+        updatedLists[editIconClickedForItem] = response;
+        setLists(updatedLists);
+      } catch (error) {
+        console.error('Failed to update Habit:', error);
+      }
+    }
+    setEditIconClickedForItem(null)
+  }
   return (
     <>
       <TitleWithButton title="Habits" buttons={buttons} />
@@ -62,6 +100,49 @@ function Habits() {
                   disabled={ habitName.length == 0 }>Create</Button>
         </Modal.Footer>
       </Modal>
+      <Table striped hover className="serial-numbered-with-name">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Habit</th>
+            <th>Streak</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          { lists.map((item: any, index) => (
+            <tr key={item.id}>
+              <td>{ index + 1 }</td>
+              <td>{ editIconClickedForItem === index ? <Form.Control type="text"
+                                                    defaultValue={item.name}
+                                                    onChange={ (e) => habitNameChangeHandler(e.target.value)}
+                                                    id='habit_name'/> : item.name }</td>
+              <td>{ item.streak }</td>
+              <td className='action-3-h'>
+                  { editIconClickedForItem === null && <FontAwesomeIcon icon={faPenClip}
+                                   onClick={ (_e) => handleEditIconClick(index) } />}{' '}
+                  { editIconClickedForItem === index ? <>
+                                                  <OverlayTrigger placement="top"
+                                                                  overlay={ habitNameError.length != 0 ? <Tooltip id="button-tooltip">
+                                                                                                           Name Cannot be blank
+                                                                                                         </Tooltip>
+                                                                                                       : <></>}
+                                                  >
+                                                    <span>
+                                                      <Button variant={ habitNameError.length == 0 ? 'success' : 'secondary' }
+                                                              onClick={ () => handleHabitUpdate() }
+                                                              disabled={ habitNameError.length != 0 }>Save</Button>{' '}
+                                                    </span>
+                                                  </OverlayTrigger>
+                                                  <Button variant="danger" onClick={ (_e) => setEditIconClickedForItem(null) }>Cancel</Button>
+                                                </>
+                                              : null }
+              </td>
+            </tr>
+            ))
+          }
+        </tbody>
+      </Table>
     </>
   );
 }
