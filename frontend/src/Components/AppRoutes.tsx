@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react"
 import {Route, Routes} from 'react-router-dom';
+import Habits from "./Habits.tsx";
 
 // Lazy imports
 // instead of loading all the imports which might not be used lazy import only the clicked routes
@@ -14,6 +15,7 @@ function AppRoutes() {
       <Routes>
         <Route path='/todo_lists' element={<TodoLists />} />
         <Route path='/uoms' element={<UOMs />} />
+        <Route path='/habits' element={<Habits />} />
       </Routes>
     </Suspense>
   );

@@ -16,4 +16,8 @@ function TitleWithButton({title, buttons}: TitleWithButtonProps) {
   );
 }
 
+export function Mandate () {
+  return(<span className="mandatory-field"> *</span>);
+}
+
 export default TitleWithButton;

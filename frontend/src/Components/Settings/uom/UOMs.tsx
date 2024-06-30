@@ -5,7 +5,7 @@ import { UOM_LIST } from "../../../Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
 import { Button, Form, FormLabel, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
-import TitleWithButton from "../../common/TitleWithButton";
+import TitleWithButton, { Mandate } from "../../common/TitleWithButton";
 
 // Defining the types for the UOM item
 interface UOMItem {
@@ -185,7 +185,7 @@ function UOMs () {
           <Modal.Body>
             <Form>
               <Form.Group controlId="formUomName">
-                <Form.Label>Name<span className="mandatory-field"> *</span></Form.Label>
+                <Form.Label>Name<Mandate /></Form.Label>
                 <Form.Control type='text'
                               placeholder="UOM Name"
                               value={uomName}
@@ -194,7 +194,7 @@ function UOMs () {
                 <Form.Text className="text-danger">{ uomNameError }</Form.Text>
               </Form.Group>
               <Form.Group controlId="formUomAbbr">
-                <Form.Label>Abbreviation<span className="mandatory-field"> *</span></Form.Label>
+                <Form.Label>Abbreviation<Mandate /></Form.Label>
                 <Form.Control type='text'
                               placeholder="Abbreviation"
                               value={uomAbbr}

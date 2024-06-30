@@ -40,6 +40,7 @@ export const axiosPostData = async(url :string, data :any): Promise<any> => {
   try {
     console.log('Posting data to REST api', url_with_version)
     const response = await axios.post(url_with_version, data);
+    debugger
     if (response.status === 201) {
       return response.data
     } else {

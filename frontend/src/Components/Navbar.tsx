@@ -1,8 +1,9 @@
-import { faGear, faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightDots, faGear, faListCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -14,6 +15,12 @@ function NavBar() {
       <Container fluid>
         <Navbar.Brand href="/">Dashboard</Navbar.Brand>
           <Nav>
+            <LinkContainer to='/habits'>
+              <Nav.Link onMouseEnter={ () => handleMouseEnter('habits') }
+                        onMouseLeave={ handleMouseLeave }>
+                { hoveredItem == 'habits' ? 'Habits' : <FontAwesomeIcon icon={faArrowUpRightDots} /> }
+              </Nav.Link>
+            </LinkContainer>
             <LinkContainer to="/todo_lists">
               <Nav.Link onMouseEnter={ () => handleMouseEnter('todo') } onMouseLeave={ handleMouseLeave }>
                 { hoveredItem === 'todo' ? 'Todo\'s' : <FontAwesomeIcon icon={ faListCheck } /> }
