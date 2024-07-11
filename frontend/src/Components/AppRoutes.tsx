@@ -7,6 +7,7 @@ import Habits from "./Habits.tsx";
 // This way performance is improved better when the application grows
 const TodoLists = lazy(() => import("./Todo/TodoLists"))
 const UOMs= lazy(() => import("./Settings/uom/UOMs.tsx"))
+const Activities = lazy(() => import("./Activities.tsx"))
 
 function AppRoutes() {
   return (
@@ -16,6 +17,7 @@ function AppRoutes() {
         <Route path='/todo_lists' element={<TodoLists />} />
         <Route path='/uoms' element={<UOMs />} />
         <Route path='/habits' element={<Habits />} />
+        <Route path='/activities' element={<Activities />} />
       </Routes>
     </Suspense>
   );

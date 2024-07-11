@@ -23,13 +23,11 @@
   }
 }
 
-.action-5-h {
-  width: 500px;
-}
-
-.action-3-h {
-  width: 300px;
-}
+/* action with n hundred pixel */
+.action-5-h { width: 500px; }
+.action-3-h { width: 300px; }
+.action-2-h { width: 200px; }
+.action-1-h { width: 100px; }
 
 .btn {
   --bs-btn-padding-y: 0 !important;

@@ -5,6 +5,7 @@ import { axiosFetchData, axiosPatchData, axiosPostData } from "../utils/apiUtils
 import { HABITS_LIST } from "../Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenClip } from "@fortawesome/free-solid-svg-icons";
+import { LinkContainer } from "react-router-bootstrap";
 
 interface HabitsItem {
   id: number;
@@ -107,6 +108,7 @@ function Habits() {
             <th>Habit</th>
             <th>Streak</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -118,7 +120,7 @@ function Habits() {
                                                     onChange={ (e) => habitNameChangeHandler(e.target.value)}
                                                     id='habit_name'/> : item.name }</td>
               <td>{ item.streak }</td>
-              <td className='action-3-h'>
+              <td className='action-2-h'>
                   { editIconClickedForItem === null && <FontAwesomeIcon icon={faPenClip}
                                    onClick={ (_e) => handleEditIconClick(index) } />}{' '}
                   { editIconClickedForItem === index ? <>
@@ -137,6 +139,11 @@ function Habits() {
                                                   <Button variant="danger" onClick={ (_e) => setEditIconClickedForItem(null) }>Cancel</Button>
                                                 </>
                                               : null }
+              </td>
+              <td className="action-1-h">
+                <LinkContainer to='/activities'>
+                  <Button variant="success">Log</Button>
+                </LinkContainer>
               </td>
             </tr>
             ))
