@@ -46,6 +46,9 @@ td {
 .header-title.container {
   /* background-color: rgb(113, 132, 161); */
   max-width: 100%;
+  font-size: 26px;
+  /* font-weight: bold; */
+  font-style: italic;
 }
 
 .mandatory-field {

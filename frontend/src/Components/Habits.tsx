@@ -142,7 +142,7 @@ function Habits() {
               </td>
               <td className="action-1-h">
                 <LinkContainer to='/activities'>
-                  <Button variant="success">Log</Button>
+                  <Button variant="success">View</Button>
                 </LinkContainer>
               </td>
             </tr>

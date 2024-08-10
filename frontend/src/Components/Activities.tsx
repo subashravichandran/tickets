@@ -1,6 +1,8 @@
+import TitleWithButton from "./common/TitleWithButton";
+
 function Activities () {
   return (
-    <>Activities</>
+    <TitleWithButton title="Activities" buttons='' />
   );
 }
 
