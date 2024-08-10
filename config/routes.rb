@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :todo_lists
       resources :count_measures
       resources :habits
+      resources :habit_activities
     end
   end
 end

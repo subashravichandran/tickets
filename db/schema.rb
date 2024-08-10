@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_28_034355) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_10_111723) do
   create_table "count_measures", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation", limit: 5
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "habit_activities", force: :cascade do |t|
+    t.integer "activity_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
