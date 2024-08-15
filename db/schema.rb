@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_10_111723) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_15_035329) do
   create_table "count_measures", force: :cascade do |t|
     t.string "name"
     t.string "abbreviation", limit: 5
@@ -22,6 +22,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_10_111723) do
     t.integer "activity_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "habit_id", null: false
+    t.index ["habit_id"], name: "index_habit_activities_on_habit_id"
   end
 
   create_table "habits", force: :cascade do |t|
@@ -59,4 +61,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_10_111723) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "habit_activities", "habits"
 end
