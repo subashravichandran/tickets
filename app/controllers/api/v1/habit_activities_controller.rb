@@ -46,6 +46,6 @@ class Api::V1::HabitActivitiesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def habit_activity_params
-      params.require(:habit_activity).permit(:activity_count)
+      params.require(:habit_activity).permit(:activity_count, :habit_id)
     end
 end

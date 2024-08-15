@@ -16,8 +16,9 @@ RSpec.describe "/habit_activities", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # HabitActivity. As you add validations to HabitActivity, be sure to
   # adjust the attributes here as well.
+  let(:habit) { Habit.find_by_name('Exercise')}
   let(:valid_attributes) {
-    { activity_count: 30 }
+    { habit_id: habit.id, activity_count: 30 }
   }
 
   let(:invalid_attributes) {
@@ -35,7 +36,7 @@ RSpec.describe "/habit_activities", type: :request do
 
   describe "GET /index" do
     it "renders a successful response" do
-      HabitActivity.create! valid_attributes
+      habit.habit_activities.create! valid_attributes
       get api_v1_habit_activities_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
@@ -43,7 +44,7 @@ RSpec.describe "/habit_activities", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      habit_activity = HabitActivity.create! valid_attributes
+      habit_activity = habit.habit_activities.create! valid_attributes
       get api_v1_habit_activity_url(habit_activity), as: :json
       expect(response).to be_successful
     end
