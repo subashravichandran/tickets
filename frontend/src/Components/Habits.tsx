@@ -31,10 +31,9 @@ function Habits() {
   }
   const handleCreateHabit = async() => {
     if (habitName.length != 0 ) {
-      const url = `/habits`
       const newHabit = { name: habitName, streak: 0 }
       try {
-        const response = await axiosPostData(url, newHabit)
+        const response = await axiosPostData('/habits', newHabit)
         setShowCreateModal(false)
         console.log(response)
       } catch (error) {
@@ -141,7 +140,7 @@ function Habits() {
                                               : null }
               </td>
               <td className="action-1-h">
-                <LinkContainer to='/activities'>
+                <LinkContainer to={`/activities/${item.id}`}>
                   <Button variant="success">View</Button>
                 </LinkContainer>
               </td>

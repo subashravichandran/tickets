@@ -17,7 +17,7 @@ function AppRoutes() {
         <Route path='/todo_lists' element={<TodoLists />} />
         <Route path='/uoms' element={<UOMs />} />
         <Route path='/habits' element={<Habits />} />
-        <Route path='/activities' element={<Activities />} />
+        <Route path='/activities/:habitId' element={<Activities />} />
       </Routes>
     </Suspense>
   );

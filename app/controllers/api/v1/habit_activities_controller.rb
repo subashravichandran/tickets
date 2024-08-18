@@ -1,9 +1,10 @@
 class Api::V1::HabitActivitiesController < ApplicationController
   before_action :set_habit_activity, only: %i[ show ]
+  before_action :set_habit, only: %i[ index create ]
 
   # GET /habit_activities
   def index
-    @habit_activities = HabitActivity.all
+    @habit_activities = @habit.habit_activities
 
     render json: @habit_activities
   end
@@ -15,7 +16,7 @@ class Api::V1::HabitActivitiesController < ApplicationController
 
   # POST /habit_activities
   def create
-    @habit_activity = HabitActivity.new(habit_activity_params)
+    @habit_activity = @habit.habit_activities.build(habit_activity_params)
 
     if @habit_activity.save
       render json: @habit_activity, status: :created, location: api_v1_habit_activity_url(@habit_activity)
@@ -47,5 +48,9 @@ class Api::V1::HabitActivitiesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def habit_activity_params
       params.require(:habit_activity).permit(:activity_count, :habit_id)
+    end
+
+    def set_habit
+      @habit = Habit.find(params[:habit_id])
     end
 end
