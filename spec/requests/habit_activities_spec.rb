@@ -92,6 +92,26 @@ RSpec.describe "/habit_activities", type: :request do
         expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
+
+    context "changes streak" do
+      it 'should update the streak of the habit by 1' do
+        post api_v1_habit_habit_activities_url(habit_id: habit.id),
+          params: { habit_activity: valid_attributes }, headers: valid_headers, as: :json
+        habit.habit_activities.last.update_attribute!(:created_at, Date.yesterday)
+        expect(Habit.find_sole_by(id: habit.id).streak).to eq(1)
+        post api_v1_habit_habit_activities_url(habit_id: habit.id),
+          params: { habit_activity: valid_attributes }, headers: valid_headers, as: :json
+        expect(Habit.find_sole_by(id: habit.id).streak).to eq(2)
+      end
+
+      it 'should update the streak only by one in case of multiple updates on the same habit on same day' do
+        post api_v1_habit_habit_activities_url(habit_id: habit.id),
+          params: { habit_activity: valid_attributes }, headers: valid_headers, as: :json
+        post api_v1_habit_habit_activities_url(habit_id: habit.id),
+          params: { habit_activity: valid_attributes }, headers: valid_headers, as: :json
+        expect(Habit.find_sole_by(id: habit.id).streak).to eq(1)
+      end
+    end
   end
 
   # Below test cases are invalid as on now since the actions are not defined - Enable if needed later
