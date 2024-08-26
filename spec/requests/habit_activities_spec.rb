@@ -40,6 +40,16 @@ RSpec.describe "/habit_activities", type: :request do
       get api_v1_habit_habit_activities_url(habit_id: habit.id), headers: valid_headers, as: :json
       expect(response).to be_successful
     end
+
+    it "returns the habit activities sorted by created_at in descending order" do
+      habit.habit_activities.create! valid_attributes
+      habit.habit_activities.create! valid_attributes.merge({ created_at: Date.tomorrow })
+      habit.habit_activities.create! valid_attributes.merge({ created_at: Date.yesterday })
+      get api_v1_habit_habit_activities_url(habit_id: habit.id), headers: valid_headers, as: :json
+      expect(response).to be_successful
+      dates = JSON.parse(response.body).map{|e| e['created_at']}
+      expect(dates).to eq(dates.sort.reverse)
+    end
   end
 
   describe "GET /show" do

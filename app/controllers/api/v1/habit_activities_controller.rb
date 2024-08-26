@@ -4,7 +4,7 @@ class Api::V1::HabitActivitiesController < ApplicationController
 
   # GET /habit_activities
   def index
-    @habit_activities = @habit.habit_activities
+    @habit_activities = @habit.habit_activities.order(created_at: :desc)
 
     render json: @habit_activities
   end
