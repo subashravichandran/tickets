@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TitleWithButton from "./common/TitleWithButton";
 import { axiosFetchData, axiosPostData } from "../utils/apiUtils";
-import { HABIT_ACTIVITES_LIST} from "../Constants";
+import { HABIT_ACTIVITES_LIST, HABITS_LIST } from "../Constants";
 import { DisplayTable } from "./common/DisplayTable";
 import { displayDateFormat } from "../utils/dateUtils";
 import { Button, Form } from "react-bootstrap";
@@ -20,7 +20,7 @@ function Activities () {
   const headers = {'log': 'Logs'}
 
   const fetchData = async () => {
-    const data = await axiosFetchData(HABIT_ACTIVITES_LIST + `?habit_id=${habitId}`)
+    const data = await axiosFetchData(HABITS_LIST + `/${habitId}/` + HABIT_ACTIVITES_LIST )
     setActivitiesList(data)
   }
 
@@ -31,7 +31,7 @@ function Activities () {
   const createHabitActivity = async() => {
     const habit_activity_params = { habit_id: habitId, activity_count: timeSpent }
     try {
-      await axiosPostData('/habit_activities', habit_activity_params)
+      await axiosPostData(HABITS_LIST + `/${habitId}/habit_activities`, habit_activity_params)
       fetchData();
     } catch(error) {
       console.error('failed to create habit_activity', error)
