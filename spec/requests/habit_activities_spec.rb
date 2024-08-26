@@ -37,7 +37,7 @@ RSpec.describe "/habit_activities", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       habit.habit_activities.create! valid_attributes
-      get api_v1_habit_activities_url, headers: valid_headers, as: :json
+      get api_v1_habit_habit_activities_url(habit_id: habit.id), headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe "/habit_activities", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       habit_activity = habit.habit_activities.create! valid_attributes
-      get api_v1_habit_activity_url(habit_activity), as: :json
+      get api_v1_habit_habit_activity_url(habit_id: habit.id, id: habit_activity), as: :json
       expect(response).to be_successful
     end
   end
@@ -54,13 +54,13 @@ RSpec.describe "/habit_activities", type: :request do
     context "with valid parameters" do
       it "creates a new HabitActivity" do
         expect {
-          post api_v1_habit_activities_url,
+          post api_v1_habit_habit_activities_url(habit_id: habit.id),
                params: { habit_activity: valid_attributes }, headers: valid_headers, as: :json
         }.to change(HabitActivity, :count).by(1)
       end
 
       it "renders a JSON response with the new habit_activity" do
-        post api_v1_habit_activities_url,
+        post api_v1_habit_habit_activities_url(habit_id: habit.id),
              params: { habit_activity: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -70,13 +70,13 @@ RSpec.describe "/habit_activities", type: :request do
     context "with invalid parameters" do
       it "does not create a new HabitActivity" do
         expect {
-          post api_v1_habit_activities_url,
+          post api_v1_habit_habit_activities_url(habit_id: habit.id),
                params: { habit_activity: invalid_attributes }, as: :json
         }.to change(HabitActivity, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new habit_activity" do
-        post api_v1_habit_activities_url,
+        post api_v1_habit_habit_activities_url(habit_id: habit.id),
              params: { habit_activity: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))

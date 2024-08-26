@@ -19,7 +19,7 @@ class Api::V1::HabitActivitiesController < ApplicationController
     @habit_activity = @habit.habit_activities.build(habit_activity_params)
 
     if @habit_activity.save
-      render json: @habit_activity, status: :created, location: api_v1_habit_activity_url(@habit_activity)
+      render json: @habit_activity, status: :created, location: api_v1_habit_habit_activity_url(@habit.id, @habit_activity)
     else
       render json: @habit_activity.errors, status: :unprocessable_entity
     end

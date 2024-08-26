@@ -24,8 +24,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :todo_lists
       resources :count_measures
-      resources :habits
-      resources :habit_activities
+      resources :habits do
+        resources :habit_activities, only: [:index, :show, :create]
+      end
     end
   end
 end
