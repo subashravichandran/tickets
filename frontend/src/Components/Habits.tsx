@@ -34,6 +34,9 @@ function Habits() {
       const newHabit = { name: habitName, streak: 0 }
       try {
         const response = await axiosPostData('/habits', newHabit)
+        const updatedLists = [...lists]
+        updatedLists[lists.length] = response
+        setLists(updatedLists)
         setShowCreateModal(false)
         console.log(response)
       } catch (error) {
